@@ -1,0 +1,6 @@
+{
+  "name": "EatRite",
+  "description": "An AI-powered Food Security, Safety, and Personalized Dietary Assistant with scan checking, restaurant safety QA, and health-customized advice.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
