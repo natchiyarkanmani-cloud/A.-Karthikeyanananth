@@ -251,6 +251,11 @@ class FoodSafetyViewModel(application: Application) : AndroidViewModel(applicati
 
             val response = GeminiClient.generateContent(prompt = prompt, systemInstruction = sysInstruction)
             
+            if (response.trim().startsWith("Error:")) {
+                _scanResult.value = ScanResultState.Error(response)
+                return@launch
+            }
+            
             try {
                 // Parse the JSON response
                 val cleanJson = response.trim().removeSurrounding("```json", "```").trim()
@@ -323,6 +328,11 @@ class FoodSafetyViewModel(application: Application) : AndroidViewModel(applicati
                     mimeType = "image/jpeg",
                     systemInstruction = sysInstruction
                 )
+
+                if (response.trim().startsWith("Error:")) {
+                    _scanResult.value = ScanResultState.Error(response)
+                    return@launch
+                }
 
                 val cleanJson = response.trim().removeSurrounding("```json", "```").trim()
                 val json = JSONObject(cleanJson)
