@@ -656,13 +656,46 @@ fun ScannerTab(viewModel: FoodSafetyViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp)
                 ) {
-                    Row(
-                        modifier = Modifier.padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(Icons.Default.Warning, contentDescription = "Error", tint = MaterialTheme.colorScheme.error)
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(state.message, color = MaterialTheme.colorScheme.onErrorContainer, fontSize = 13.sp)
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(
+                            verticalAlignment = Alignment.Top,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Warning,
+                                contentDescription = "Error",
+                                tint = MaterialTheme.colorScheme.error,
+                                modifier = Modifier.padding(top = 2.dp)
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Scan Failed",
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.error,
+                                    fontSize = 14.sp
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = state.message,
+                                    color = MaterialTheme.colorScheme.onErrorContainer,
+                                    fontSize = 12.5.sp,
+                                    lineHeight = 18.sp
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
+                        OutlinedButton(
+                            onClick = { viewModel.resetScanner() },
+                            modifier = Modifier.align(Alignment.End),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colorScheme.error
+                            ),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.4f)),
+                            shape = RoundedCornerShape(8.dp)
+                        ) {
+                            Text("Try Again")
+                        }
                     }
                 }
             }
@@ -1560,7 +1593,7 @@ fun ProfileTab(viewModel: FoodSafetyViewModel) {
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = "By default, EatRite uses the system-provided Gemini key. You can optionally override it here with your own personal Gemini API Key if desired.",
+                    text = "By default, EatRite runs in a smart, keyless Offline AI Mode. It provides instant, 100% free, and rate-limit-free advice customized to your physical health profile! You can optionally enter your own personal Gemini API Key below if you want to connect to Google's live cloud-based AI.",
                     fontSize = 11.5.sp,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     modifier = Modifier.padding(bottom = 12.dp)
@@ -1568,7 +1601,7 @@ fun ProfileTab(viewModel: FoodSafetyViewModel) {
                 OutlinedTextField(
                     value = apiKeyInput,
                     onValueChange = { apiKeyInput = it },
-                    placeholder = { Text("System key is active. Enter custom key to override...", fontSize = 12.5.sp) },
+                    placeholder = { Text("Offline AI Active. Enter custom key to use cloud AI...", fontSize = 12.5.sp) },
                     singleLine = true,
                     visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
                     modifier = Modifier

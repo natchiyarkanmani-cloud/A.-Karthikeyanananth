@@ -251,7 +251,7 @@ class FoodSafetyViewModel(application: Application) : AndroidViewModel(applicati
 
             val response = GeminiClient.generateContent(prompt = prompt, systemInstruction = sysInstruction)
             
-            if (response.trim().startsWith("Error:")) {
+            if (response.trim().startsWith("Error") || response.trim().startsWith("Network")) {
                 _scanResult.value = ScanResultState.Error(response)
                 return@launch
             }
@@ -329,7 +329,7 @@ class FoodSafetyViewModel(application: Application) : AndroidViewModel(applicati
                     systemInstruction = sysInstruction
                 )
 
-                if (response.trim().startsWith("Error:")) {
+                if (response.trim().startsWith("Error") || response.trim().startsWith("Network")) {
                     _scanResult.value = ScanResultState.Error(response)
                     return@launch
                 }
